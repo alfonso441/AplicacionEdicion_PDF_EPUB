@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txt_indicaciones_editor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Seleccionar la función a realizar"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/bt_mergerpdf_editor"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:minWidth="160dp"
+        android:text="Unir PDFs"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/txt_indicaciones_editor"/>
+
+    <Button
+        android:id="@+id/bt_convertir_pdf_to_img_editor"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:minWidth="160dp"
+        android:text="Convertir PDF a imagenes"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/bt_mergerpdf_editor"/>
+
+    <Button
+        android:id="@+id/bt_split_pdf_editor"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:minWidth="160dp"
+        android:text="Split (Extraer páginas)"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/bt_convertir_pdf_to_img_editor"/>
+
+    <Button
+        android:id="@+id/bt_img_to_pdf_editor"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:minWidth="160dp"
+        android:text="Convertir imagen a PDF"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/bt_split_pdf_editor"/>
+
+    <Button
+        android:id="@+id/bt_removepage_pdf_editor"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:minWidth="160dp"
+        android:text="Remover páginas del PDF"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/bt_img_to_pdf_editor"/>
+
+    <Button
+        android:id="@+id/bt_addImageToPDF_pdf_editor"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:minWidth="160dp"
+        android:text="Agregar Imagen como página al PDF"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/bt_img_to_pdf_editor"/>
+
+</LinearLayout>

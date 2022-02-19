@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".Picture">
+
+    <TextView
+        android:id="@+id/txt_indicaciones_addImageToPDF"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:text="Agregar imagen como página al PDF"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/bt_file_addImageToPDF"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="Cargar PDF"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="#ffffff"
+        android:minWidth="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/txt_indicaciones_addImageToPDF"/>
+
+    <Button
+        android:id="@+id/bt_img_addImageToPDF"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="Cargar Imagen"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="#ffffff"
+        android:minWidth="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/bt_file_addImageToPDF"/>
+
+    <TextView
+        android:id="@+id/txt_addImageToPDF_numbers"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:text="Indicar a partir de cual número de página debe ir la nueva página"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:layout_below="@+id/bt_img_addImageToPDF"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/number_page_begin_addImageToPDF"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Ingresar posición de la nueva página"
+        android:inputType="number"
+        android:layout_below="@+id/txt_addImageToPDF_numbers"/>
+
+    <Button
+        android:id="@+id/bt_addImageToPDF"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="Agregar imagen como página"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="#ffffff"
+        android:minWidth="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/number_page_begin_addImageToPDF"/>
+
+    <TextView
+        android:id="@+id/addImageToPDF_path_file"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:text=" "
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:layout_below="@+id/bt_addImageToPDF"
+        android:textSize="20sp"/>
+
+</LinearLayout>

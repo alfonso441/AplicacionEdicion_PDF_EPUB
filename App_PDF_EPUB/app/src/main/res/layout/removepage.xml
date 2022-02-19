@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".Picture">
+
+    <TextView
+        android:id="@+id/txt_indicaciones_removepage"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:text="Remover páginas del pdf"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/bt_file_removepage"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="Cargar PDF"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="#ffffff"
+        android:minWidth="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/txt_indicaciones_removepage"/>
+
+    <TextView
+        android:id="@+id/txt_removepage_numbers"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:text="Al remover una sola página ingrese el mismo número de página en ambos espacios."
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:layout_below="@+id/bt_file_removepage"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/number_page_begin_remove"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Ingresar inicio del rango de páginas a remvoer"
+        android:inputType="number"
+        android:layout_below="@+id/txt_removepage_numbers"/>
+
+    <EditText
+        android:id="@+id/number_page_end_remove"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Ingresar final del rango de páginas a remvoer"
+        android:inputType="number"
+        android:layout_below="@+id/number_page_begin_remove"/>
+
+    <Button
+        android:id="@+id/bt_removepage"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="Remover páginas"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="#ffffff"
+        android:minWidth="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/number_page_end_remove"/>
+
+    <TextView
+        android:id="@+id/removepage_path_file"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:text=" "
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:layout_below="@+id/bt_removepage"
+        android:textSize="20sp"/>
+
+</LinearLayout>
