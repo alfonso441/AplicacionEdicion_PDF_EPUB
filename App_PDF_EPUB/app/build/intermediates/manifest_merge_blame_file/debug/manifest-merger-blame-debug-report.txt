@@ -1,0 +1,97 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.aaa.editorapachepdfopenbox"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+11-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:5:5-81
+11-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:5:22-78
+12    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+12-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:6:5-80
+12-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:6:22-77
+13
+14    <application
+14-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:8:5-41:19
+15        android:allowBackup="true"
+15-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:9:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.5.0] C:\Users\alfon\.gradle\caches\transforms-3\3097e1c5dd79a0661fe903d2c2778720\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+17        android:debuggable="true"
+18        android:icon="@mipmap/ic_launcher"
+18-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:10:9-43
+19        android:label="@string/app_name"
+19-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:11:9-41
+20        android:requestLegacyExternalStorage="true"
+20-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:12:9-52
+21        android:roundIcon="@mipmap/ic_launcher_round"
+21-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:13:9-54
+22        android:supportsRtl="true"
+22-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:14:9-35
+23        android:testOnly="true"
+24        android:theme="@style/Theme.EditorApachePDFOpenBox" >
+24-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:15:9-60
+25        <activity
+25-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:16:9-18:40
+26            android:name="com.aaa.editorapachepdfopenbox.EditorEPUB"
+26-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:17:13-39
+27            android:exported="false" />
+27-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:18:13-37
+28        <activity
+28-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:19:9-21:40
+29            android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
+29-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:20:13-45
+30            android:exported="false" />
+30-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:21:13-37
+31        <activity
+31-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:22:9-30:20
+32            android:name="com.aaa.editorapachepdfopenbox.MainActivity"
+32-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:23:13-41
+33            android:exported="true" >
+33-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:24:13-36
+34            <intent-filter>
+34-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:25:13-29:29
+35                <action android:name="android.intent.action.MAIN" />
+35-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:26:17-69
+35-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:26:25-66
+36
+37                <category android:name="android.intent.category.LAUNCHER" />
+37-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:28:17-77
+37-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:28:27-74
+38            </intent-filter>
+39        </activity>
+40
+41        <provider
+41-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:32:9-40:20
+42            android:name="androidx.core.content.FileProvider"
+42-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:33:13-62
+43            android:authorities="com.gd.fileshareforr.MainActivity.provider"
+43-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:34:13-77
+44            android:exported="false"
+44-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:35:13-37
+45            android:grantUriPermissions="true" >
+45-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:36:13-47
+46            <meta-data
+46-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:37:13-39:53
+47                android:name="android.support.FILE_PROVIDER_PATHS"
+47-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:38:17-67
+48                android:resource="@xml/file_path" />
+48-->C:\Users\alfon\Desktop\AplicacionEdicion_PDF_EPUB\App_PDF_EPUB\app\src\main\AndroidManifest.xml:39:17-50
+49        </provider>
+50
+51        <activity
+51-->[com.nbsp:materialfilepicker:1.9.1] C:\Users\alfon\.gradle\caches\transforms-3\188390c8827e626ebacd4cb356dace35\transformed\jetified-materialfilepicker-1.9.1\AndroidManifest.xml:14:9-17:20
+52            android:name="com.nbsp.materialfilepicker.ui.FilePickerActivity"
+52-->[com.nbsp:materialfilepicker:1.9.1] C:\Users\alfon\.gradle\caches\transforms-3\188390c8827e626ebacd4cb356dace35\transformed\jetified-materialfilepicker-1.9.1\AndroidManifest.xml:15:13-77
+53            android:theme="@style/MFP_BaseTheme" >
+53-->[com.nbsp:materialfilepicker:1.9.1] C:\Users\alfon\.gradle\caches\transforms-3\188390c8827e626ebacd4cb356dace35\transformed\jetified-materialfilepicker-1.9.1\AndroidManifest.xml:16:13-49
+54        </activity>
+55    </application>
+56
+57</manifest>
