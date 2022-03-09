@@ -7,9 +7,18 @@ buildscript {
         maven { url 'https://jitpack.io'
             //url 'https://dl.bintray.com/lukaville/maven'
         }
+
+        // Local Dependencies
+        mavenLocal()
+
+        /*
+        // Epublib: Older Version by Maven link. Version 3.1.
+        maven { url 'https://github.com/psiegman/mvn-repo/raw/master/releases'}
+        */
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.1'
+        classpath 'com.android.tools.build:gradle:7.1.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
