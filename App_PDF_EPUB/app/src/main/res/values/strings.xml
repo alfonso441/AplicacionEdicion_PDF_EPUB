@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">EditorApachePDFOpenBox</string>
+    <string name="app_name0">EditorApachePDFOpenBox</string>
+    <string name="app_name1">Aplicación PDF vs EPUB</string>
 </resources>

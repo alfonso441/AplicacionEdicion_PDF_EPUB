@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
     app:startDestination="@id/main_menu">
 
+    <!--  "Menú Principal"  -->
+
     <fragment
         android:id="@+id/main_menu"
         android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
@@ -14,6 +16,8 @@
             android:id="@+id/action_epub_tools"
             app:destination="@id/action_editor_epub" />
     </fragment>
+
+    <!--  "Herramientas PDF"  -->
 
     <fragment
         android:id="@+id/action_editor_pdf"
@@ -64,55 +68,55 @@
         android:name="com.aaa.editorapachepdfopenbox.AddImageToPDF"
         android:label="Agrega imagen como página en el PDF"/>
 
+    <!--  "Herramientas EPUB"  -->
 
     <fragment
         android:id="@+id/action_editor_epub"
         android:name="com.aaa.editorapachepdfopenbox.EditorEPUB"
         android:label="Herramientas EPUB" >
         <action
-            android:id="@+id/action_mergepdf"
-            app:destination="@id/mergeEPUB" />
+            android:id="@+id/action_1B_convert_pdf2epub"
+            app:destination="@id/fragment_1B_convert_pdf2epub" />
         <action
-            android:id="@+id/action_extraer_imagenes"
-            app:destination="@id/pictureEPUB" />
+            android:id="@+id/action_2B_add_cover2epub"
+            app:destination="@id/fragment_2B_add_cover2epub" />
         <action
-            android:id="@+id/action_split_PDF"
-            app:destination="@id/splitEPUB" />
+            android:id="@+id/action_3B_add_chapter2epub"
+            app:destination="@id/fragment_3B_add_chapter2epub" />
         <action
-            android:id="@+id/action_img_to_pdf"
-            app:destination="@id/picturetoEPUB" />
+            android:id="@+id/action_4B_convert_picture2epub"
+            app:destination="@id/fragment_4B_convert_picture2epub" />
         <action
-            android:id="@+id/action_remove_pages_pdf"
-            app:destination="@id/removepagesEPUB" />
+            android:id="@+id/action_5B_remove_pages_from_epub"
+            app:destination="@id/fragment_5B_remove_pages_from_epub" />
         <action
-            android:id="@+id/action_add_img_to_pdf"
-            app:destination="@id/addimagetoEPUB" />
+            android:id="@+id/action_6B_epub_reader"
+            app:destination="@id/fragment_6B_epub_reader" />
     </fragment>
 
     <fragment
-        android:id="@+id/mergeEPUB"
-        android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
-        android:label="Unir PDFs" />
+        android:id="@+id/fragment_1B_convert_pdf2epub"
+        android:name="com.aaa.editorapachepdfopenbox.B1_ConvertPDF2EPUB"
+        android:label="1B_EPUB" />
     <fragment
-        android:id="@+id/pictureEPUB"
-        android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
-        android:label="Convertir a imagenes"/>
+        android:id="@+id/fragment_2B_add_cover2epub"
+        android:name="com.aaa.editorapachepdfopenbox.B2_AddCover2EPUB"
+        android:label="2B_EPUB"/>
     <fragment
-        android:id="@+id/splitEPUB"
-        android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
-        android:label="Split (extraer páginas)"/>
+        android:id="@+id/fragment_3B_add_chapter2epub"
+        android:name="com.aaa.editorapachepdfopenbox.B3_AddChapter2EPUB"
+        android:label="3B_EPUB"/>
     <fragment
-        android:id="@+id/picturetoEPUB"
-        android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
-        android:label="Imagenes a PDF"/>
+        android:id="@+id/fragment_4B_convert_picture2epub"
+        android:name="com.aaa.editorapachepdfopenbox.B4_ConvertPicture2EPUB"
+        android:label="4B_EPUB"/>
     <fragment
-        android:id="@+id/removepagesEPUB"
-        android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
-        android:label="Remueve paginas del PDF"/>
+        android:id="@+id/fragment_5B_remove_pages_from_epub"
+        android:name="com.aaa.editorapachepdfopenbox.B5_RemovePagesFromEPUB"
+        android:label="5B_EPUB"/>
     <fragment
-        android:id="@+id/addimagetoEPUB"
-        android:name="com.aaa.editorapachepdfopenbox.MainMenuPDF_EPUB"
-        android:label="Agrega imagen como página en el PDF"/>
-
+        android:id="@+id/fragment_6B_epub_reader"
+        android:name="com.aaa.editorapachepdfopenbox.B6_EPUBReader"
+        android:label="6B_EPUB"/>
 
 </navigation>

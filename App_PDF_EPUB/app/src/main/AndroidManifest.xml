@@ -8,11 +8,29 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name1"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EditorApachePDFOpenBox">
+        <activity
+            android:name=".B5_RemovePagesFromEPUB"
+            android:exported="false" />
+        <activity
+            android:name=".B4_ConvertPicture2EPUB"
+            android:exported="false" />
+        <activity
+            android:name=".B3_AddChapter2EPUB"
+            android:exported="false" />
+        <activity
+            android:name=".B2_AddCover2EPUB"
+            android:exported="false" />
+        <activity
+            android:name=".B1_ConvertPDF2EPUB"
+            android:exported="false" />
+        <activity
+            android:name=".B6_EPUBReader"
+            android:exported="false" />
         <activity
             android:name=".EditorEPUB"
             android:exported="false" />

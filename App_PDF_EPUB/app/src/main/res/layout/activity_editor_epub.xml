@@ -17,87 +17,87 @@ tools:context=".EditorEPUB">
     android:textSize="20sp"/>
 
 <Button
-    android:id="@+id/bt_mergerpdf_editorEPUB"
+    android:id="@+id/bt_1B_convert_pdf2epub"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:layout_marginTop="8dp"
-    android:backgroundTint="#3aa8c1"
+    android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Unir EPUBs"
+    android:text="Convertir PDF a EPUB"
     android:textColor="#ffffff"
-    android:layout_below="@+id/txt_indicaciones_editor"/>
+    android:layout_below="@+id/txt_indicaciones_editorEPUB"/>
 
 <Button
-    android:id="@+id/bt_convertir_pdf_to_img_editorEPUB"
+    android:id="@+id/bt_2B_add_cover2epub"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:layout_marginTop="8dp"
-    android:backgroundTint="#3aa8c1"
+    android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Convertir EPUB a imagenes"
+    android:text="Agregar Portada al EPUB"
     android:textColor="#ffffff"
-    android:layout_below="@+id/bt_mergerpdf_editor"/>
+    android:layout_below="@+id/bt_1B_convert_pdf2epub"/>
 
 <Button
-    android:id="@+id/bt_split_pdf_editorEPUB"
+    android:id="@+id/bt_3B_add_chapter2epub"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:layout_marginTop="8dp"
-    android:backgroundTint="#3aa8c1"
+    android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Split (Extraer páginas)"
+    android:text="Agregar Capítulo al EPUB"
     android:textColor="#ffffff"
-    android:layout_below="@+id/bt_convertir_pdf_to_img_editor"/>
+    android:layout_below="@+id/bt_2B_add_cover2epub"/>
 
 <Button
-    android:id="@+id/bt_img_to_pdf_editorEPUB"
+    android:id="@+id/bt_4B_convert_picture2epub"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:layout_marginTop="8dp"
-    android:backgroundTint="#3aa8c1"
+    android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Convertir imagen a EPUB"
+    android:text="Convertir Imagen a EPUB"
     android:textColor="#ffffff"
-    android:layout_below="@+id/bt_split_pdf_editor"/>
+    android:layout_below="@+id/bt_3B_add_chapter2epub"/>
 
 <Button
-    android:id="@+id/bt_removepage_pdf_editorEPUB"
+    android:id="@+id/bt_5B_remove_pages_from_epub"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:layout_marginTop="8dp"
-    android:backgroundTint="#3aa8c1"
+    android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Remover páginas del EPUB"
+    android:text="Remover Páginas del EPUB"
     android:textColor="#ffffff"
-    android:layout_below="@+id/bt_img_to_pdf_editor"/>
+    android:layout_below="@+id/bt_4B_convert_picture2epub"/>
 
 <Button
-    android:id="@+id/bt_addImageToPDF_pdf_editorEPUB"
+    android:id="@+id/bt_6B_epub_reader"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:layout_marginTop="8dp"
-    android:backgroundTint="#3aa8c1"
+    android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Agregar Imagen como página al EPUB"
+    android:text="Visor de archivos EPUB"
     android:textColor="#ffffff"
-    android:layout_below="@+id/bt_img_to_pdf_editor"/>
+    android:layout_below="@+id/bt_5B_remove_pages_from_epub"/>
 
 </LinearLayout>
