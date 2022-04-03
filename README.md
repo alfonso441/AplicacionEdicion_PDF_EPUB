@@ -17,7 +17,9 @@ En esta Versión 2.0 se agrega a la Versión 1.0 la edición de documentos en fo
 
 -**Bibliotecas:** Apache PDF Box, PDF-converter y EPUBlib.
 
-Ejecutado y probado en dispositivo físico con Android 11.
+Ejecutado y probado en dispositivo físico con Android 11. 
+
+Se recomienda la comprobación de los archivos de salida en Android con el lector EPUB: Cool Reader.
 
 @AUTOR
     Alfonso Castillo Orozco 2022
