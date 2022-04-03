@@ -19,77 +19,64 @@
 
 package com.aaa.editorapachepdfopenbox;
 
-        import android.Manifest;
         import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Bitmap;
-        import android.graphics.BitmapFactory;
-        import android.net.Uri;
         import android.os.Build;
         import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
+        import android.widget.EditText;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import androidx.activity.result.ActivityResultCallback;
-        import androidx.activity.result.ActivityResultLauncher;
-        import androidx.activity.result.contract.ActivityResultContracts;
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
         import androidx.annotation.RequiresApi;
-        import androidx.core.app.ActivityCompat;
-        import androidx.core.content.ContextCompat;
         import androidx.fragment.app.Fragment;
 
         import com.nbsp.materialfilepicker.MaterialFilePicker;
         import com.nbsp.materialfilepicker.ui.FilePickerActivity;
-        import com.tom_roush.pdfbox.cos.COSName;
-        import com.tom_roush.pdfbox.cos.COSStream;
-        import com.tom_roush.pdfbox.pdmodel.PDDocument;
-        import com.tom_roush.pdfbox.pdmodel.PDPage;
-        import com.tom_roush.pdfbox.pdmodel.PDPageTree;
-        import com.tom_roush.pdfbox.pdmodel.PDResources;
-        import com.tom_roush.pdfbox.pdmodel.graphics.PDXObject;
-        import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
-        import com.tom_roush.pdfbox.rendering.PDFRenderer;
-        import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
+
+        import org.apache.commons.io.FilenameUtils;
 
         import java.io.File;
         import java.io.FileOutputStream;
         import java.io.FileInputStream;
         import java.io.InputStream;
         import java.io.IOException;
+        import java.util.List;
 
         // Epublib
         import nl.siegmann.epublib.domain.Author;
         import nl.siegmann.epublib.domain.Book;
         import nl.siegmann.epublib.domain.Metadata;
         import nl.siegmann.epublib.domain.Resource;
+        import nl.siegmann.epublib.domain.Spine;
+        import nl.siegmann.epublib.domain.SpineReference;
         import nl.siegmann.epublib.domain.TOCReference;
         import nl.siegmann.epublib.epub.EpubWriter;
         import nl.siegmann.epublib.epub.EpubReader;
 
-        // Pdf-Converter
-        import pdf.converter.PdfConverter;
-
 /****************************************************************************
- *  B5 - Remover páginas de un archivo EPUB.
+ *  B5 - Remover sección de un archivo EPUB.
  ***************************************************************************/
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 public class B5_RemovePagesFromEPUB extends Fragment {
     // Inicializa variables
-    private Button bt_b5_seleccionar_paginas, bt_b5_remover_paginas_al_epub; // Botones para seleccionar página y remover página del archivo EPUB
-    private TextView txt_path_show;                                         // Muestra el path del archivo seleccionado
-    private String pathEPUBselected;                                       // Path del archivo seleccionado
+    private Button bt_b5_seleccionar_paginas, bt_b5_remover_paginas_al_epub;    // Botones para seleccionar página y remover página del archivo EPUB
+    private TextView txt_path_show;                                             // Muestra el path del archivo seleccionado
+    private TextView txt_rango;                                                 // Muestra el rango de secciones del archivo seleccionado
+    private int rango;                                                          // Rango de secciones del archivo seleccionado
+    private String pathEPUBselected;                                            // Path del archivo seleccionado
+    private EditText SectionNumber;                                             // Ingreso del número de sección a borrar por el usuario
+    private int integer_numSection;                                             // Número de sección a eliminar
 
     int RESULT_OK = -1;
 
     // Locación donde almacena los archivos de salida
-    private static final String OUTPUT_DIR = "/storage/emulated/0/Documents";
+    private static final String OUTPUT_DIR = "/storage/emulated/0/EPUB_Tools";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +87,8 @@ public class B5_RemovePagesFromEPUB extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.b5_activity_remove_pages_from_epub, container, false);
+        // Características del EPUB
+        txt_rango = view.findViewById(R.id.txt_RANGO_indicaciones_b5);
 
         // Selecciona archivo EPUB
         txt_path_show = view.findViewById(R.id.txt_path_selected);
@@ -112,6 +101,7 @@ public class B5_RemovePagesFromEPUB extends Fragment {
         });
 
         // Invoca el método para remover página del archivo EPUB
+        SectionNumber =  view.findViewById(R.id.number_section2remove);
         bt_b5_remover_paginas_al_epub =  view.findViewById(R.id.bt_b5_remover_paginas_al_epub);
         bt_b5_remover_paginas_al_epub.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -119,9 +109,12 @@ public class B5_RemovePagesFromEPUB extends Fragment {
             public void onClick(View v) {
                 try {
 
+                    // Se capta el número de sección a eliminar del usuario
+                    integer_numSection = Integer.valueOf(SectionNumber.getText().toString());
+
                     // Remover página de un archivo EPUB
-                    RemovePageEPUB(pathEPUBselected);
-                    txt_path_show.setText("Página removida del EPUB");
+                    RemovePageEPUB(pathEPUBselected, integer_numSection);
+                    txt_path_show.setText("Sección removida del EPUB");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -145,12 +138,19 @@ public class B5_RemovePagesFromEPUB extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Archivo 1
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            // Path PDF 1
             pathEPUBselected = filePath;
             txt_path_show.setText(pathEPUBselected);
             displatToast("path: " + pathEPUBselected);
+            // Rango de secciones del archivo
+            try {
+                RangoSecciones(pathEPUBselected);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            txt_rango.setText("Rango de secciones: 1-"+Integer.toString(rango));
         }
     }
 
@@ -159,15 +159,71 @@ public class B5_RemovePagesFromEPUB extends Fragment {
         Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
     }
 
+    // Rango de secciones de un archivo EPUB
+    public void RangoSecciones(String pathEPUBselected) throws IOException {
+        // Carga datos del EPUB
+        EpubReader epubReader = new EpubReader();
+        Book book0 = epubReader.readEpub(new FileInputStream(pathEPUBselected));
+        // Se carga la lista de referencias del Spine
+        List<SpineReference> spine_References = book0.getSpine().getSpineReferences();
+        // Rango de secciones
+        rango = spine_References.size();
+    }
 
     // Remover página de un archivo EPUB
-    public static void RemovePageEPUB(String pathEPUBselected)throws IOException {
+    public static void RemovePageEPUB(String pathEPUBselected, Integer integer_numSection)throws IOException {
+
+        // Verificar-Crear Directorio de salida por defecto
+        File folder = new File(OUTPUT_DIR);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // Carga archivo EPUB y datos para archivo de salida
+        File input_1 = new File(pathEPUBselected);                      // Archivo de entrada
+        String title1 = input_1.getName();                              // Título del archivo de entrada
+        String title_no_ext1 = FilenameUtils.removeExtension(title1);   // Título del archivo de entrada sin extensión
+        String name = "5-" + title_no_ext1 + "_SectionRemoved.epub";      // Nombre del archivo de salida
+
         // Carga datos del EPUB
         EpubReader epubReader = new EpubReader();
         Book book = epubReader.readEpub(new FileInputStream(pathEPUBselected));
 
-        // Manipulación de Datos del EPUB
+        // Se carga la lista de referencias del Spine
+        List<SpineReference> spine_References = book.getSpine().getSpineReferences();
+        spine_References.remove(integer_numSection-1); // Se remueve la sección
 
+        // Se establece el nuevo spine
+        Spine NewSpine = new Spine(spine_References);
+        book.setSpine(NewSpine);
+
+        /////////////////////////////////////
+
+        // Crea objeto EpubWriter
+        EpubWriter epubWriter = new EpubWriter();
+
+        // Crea archivo EPUB en el dispositivo
+        epubWriter.write(book, new FileOutputStream(OUTPUT_DIR + "/" + name));
+
+        ///////////////////////////////////
+
+    }
+
+    // Carga un nuevo recurso
+    private static InputStream getResource( String path ) throws IOException {
+        //return B2_AddCover2EPUB.class.getResourceAsStream( path );
+        InputStream stream = new FileInputStream(path);
+        return stream;
+    }
+
+    // Crea un nuevo objeto Resource
+    private static Resource getResource(String path, String href ) throws IOException {
+        //try {
+        return  new Resource( getResource( path ), href );
+        //} catch (IOException e) {
+        //e.printStackTrace();
+        //return new Resource( getResource( path ), href );
+        //}
     }
 
 }

@@ -13,7 +13,7 @@ tools:context=".B5_RemovePagesFromEPUB">
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_gravity="center"
-    android:text="Remover Páginas del EPUB"
+    android:text="Remover Sección del EPUB"
     android:fontFamily="sans-serif-condensed"
     android:textColor="@color/black"
     android:textSize="20sp"/>
@@ -25,12 +25,47 @@ tools:context=".B5_RemovePagesFromEPUB">
     android:layout_marginBottom="10dp"
     android:layout_gravity="center"
     android:layout_centerInParent="true"
-    android:text="Seleccionar Páginas"
+    android:text="Cargar EPUB"
     android:backgroundTint="@color/colorEPUB"
     android:textColor="#ffffff"
     android:minWidth="160dp"
     android:layout_marginTop="8dp"
     android:layout_below="@+id/txt_indicaciones_b5"/>
+
+<TextView
+    android:id="@+id/txt2_indicaciones_b5"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_gravity="center"
+    android:text="Ingrese el número de sección a remover"
+    android:fontFamily="sans-serif-condensed"
+    android:textColor="@color/black"
+    android:textSize="20sp"/>
+
+<TextView
+    android:id="@+id/txt_RANGO_indicaciones_b5"
+    android:layout_width="360dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_gravity="center"
+    android:text=" "
+    android:textColor="@color/black"
+    android:layout_below="@+id/txt2_indicaciones_b5"
+    android:fontFamily="sans-serif-condensed"
+    android:textSize="20sp"/>
+
+<EditText
+    android:id="@+id/number_section2remove"
+    android:layout_width="360dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_centerHorizontal="true"
+    android:ems="10"
+    android:hint="Ingrese número de sección a remover"
+    android:inputType="number"
+    android:layout_below="@+id/txt_RANGO_indicaciones_b5"/>
+
 
 <Button
     android:id="@+id/bt_b5_remover_paginas_al_epub"
@@ -39,12 +74,12 @@ tools:context=".B5_RemovePagesFromEPUB">
     android:layout_marginBottom="10dp"
     android:layout_gravity="center"
     android:layout_centerInParent="true"
-    android:text="Remover Páginas al EPUB"
+    android:text="Remover Sección del EPUB"
     android:backgroundTint="@color/colorEPUB"
     android:textColor="#ffffff"
     android:minWidth="160dp"
     android:layout_marginTop="8dp"
-    android:layout_below="@+id/bt_b5_seleccionar_paginas"/>
+    android:layout_below="@+id/number_section2remove"/>
 
 <TextView
     android:id="@+id/txt_path_selected"

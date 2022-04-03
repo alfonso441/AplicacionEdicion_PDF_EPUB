@@ -26,10 +26,8 @@ package com.aaa.editorapachepdfopenbox;
     import android.widget.Button;
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
-    import androidx.appcompat.app.AppCompatActivity;
     import androidx.fragment.app.Fragment;
     import androidx.navigation.Navigation;
-    import android.content.Intent;
 
 /****************************************************************************
  *  Pantalla principal de inicio (Menú Principal)
@@ -73,4 +71,7 @@ public class MainMenuPDF_EPUB extends Fragment{
         return view;
 
     }
+
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////

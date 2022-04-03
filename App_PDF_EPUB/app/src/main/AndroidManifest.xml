@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.aaa.editorapachepdfopenbox">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,29 +15,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EditorApachePDFOpenBox">
         <activity
-            android:name=".B5_RemovePagesFromEPUB"
+            android:name=".B6_WebView"
             android:exported="false" />
+        <activity
+            android:name=".B5_RemovePagesFromEPUB"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".B4_ConvertPicture2EPUB"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".B3_AddChapter2EPUB"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".B2_AddCover2EPUB"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".B1_ConvertPDF2EPUB"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".B6_EPUBReader"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".EditorEPUB"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".MainMenuPDF_EPUB"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -19,12 +19,7 @@
 
 package com.aaa.editorapachepdfopenbox;
 
-        import android.Manifest;
         import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Bitmap;
-        import android.graphics.BitmapFactory;
-        import android.net.Uri;
         import android.os.Build;
         import android.os.Bundle;
         import android.view.LayoutInflater;
@@ -34,46 +29,33 @@ package com.aaa.editorapachepdfopenbox;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import androidx.activity.result.ActivityResultCallback;
-        import androidx.activity.result.ActivityResultLauncher;
-        import androidx.activity.result.contract.ActivityResultContracts;
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
         import androidx.annotation.RequiresApi;
-        import androidx.core.app.ActivityCompat;
-        import androidx.core.content.ContextCompat;
         import androidx.fragment.app.Fragment;
 
         import com.nbsp.materialfilepicker.MaterialFilePicker;
         import com.nbsp.materialfilepicker.ui.FilePickerActivity;
-        import com.tom_roush.pdfbox.cos.COSName;
-        import com.tom_roush.pdfbox.cos.COSStream;
-        import com.tom_roush.pdfbox.pdmodel.PDDocument;
-        import com.tom_roush.pdfbox.pdmodel.PDPage;
-        import com.tom_roush.pdfbox.pdmodel.PDPageTree;
-        import com.tom_roush.pdfbox.pdmodel.PDResources;
-        import com.tom_roush.pdfbox.pdmodel.graphics.PDXObject;
-        import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
-        import com.tom_roush.pdfbox.rendering.PDFRenderer;
-        import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
+
+        import org.apache.commons.io.FilenameUtils;
 
         import java.io.File;
         import java.io.FileOutputStream;
         import java.io.FileInputStream;
         import java.io.InputStream;
         import java.io.IOException;
+        import java.util.List;
 
         // Epublib
         import nl.siegmann.epublib.domain.Author;
         import nl.siegmann.epublib.domain.Book;
         import nl.siegmann.epublib.domain.Metadata;
         import nl.siegmann.epublib.domain.Resource;
+        import nl.siegmann.epublib.domain.Spine;
+        import nl.siegmann.epublib.domain.SpineReference;
         import nl.siegmann.epublib.domain.TOCReference;
         import nl.siegmann.epublib.epub.EpubWriter;
         import nl.siegmann.epublib.epub.EpubReader;
-
-        // Pdf-Converter
-        import pdf.converter.PdfConverter;
 
 /****************************************************************************
  *  B3 - Agrega Capítulo a un archivo EPUB.
@@ -82,14 +64,16 @@ package com.aaa.editorapachepdfopenbox;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 public class B3_AddChapter2EPUB extends Fragment {
     // Inicializa variables
-    private Button bt_b3_cargar_capitulo, bt_b3_agregar_capitulo_a_epub;    // Botones para cargar capítulo y agregar capítulo al archivo EPUB
-    private TextView txt_path_show;                                         // Muestra el path del archivo seleccionado
-    private String pathChapterSelected;                                     // Path del capítulo seleccionado
+    private Button bt_b3_cargar_capitulo, bt_b3_cargar_epub, bt_b3_agregar_capitulo_a_epub; // Botones para cargar capítulo, cargar EPUB y agregar capítulo al archivo EPUB
+    private TextView txt_chapter_show;                                          // Muestra el path del archivo seleccionado (Capítulo)
+    private TextView txt_path_show;                                             // Muestra el path del archivo seleccionado (EPUB)
+    private String pathChapterSelected;                                         // Path del capítulo seleccionado
+    private String pathEPUBselected;                                            // Path del EPUB seleccionado
 
     int RESULT_OK = -1;
 
     // Locación donde almacena los archivos de salida
-    private static final String OUTPUT_DIR = "/storage/emulated/0/Documents";
+    private static final String OUTPUT_DIR = "/storage/emulated/0/EPUB_Tools";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,12 +86,22 @@ public class B3_AddChapter2EPUB extends Fragment {
         View view = inflater.inflate(R.layout.b3_activity_add_chapter2epub, container, false);
 
         // Selecciona capítulo
-        txt_path_show = view.findViewById(R.id.txt_path_selected);
+        txt_chapter_show = view.findViewById(R.id.txt_chapter_selected);
         bt_b3_cargar_capitulo = view.findViewById(R.id.bt_b3_cargar_capitulo);
         bt_b3_cargar_capitulo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filePicker1();
+            }
+        });
+
+        // Selecciona archivo EPUB a editar
+        txt_path_show = view.findViewById(R.id.txt_path_selected);
+        bt_b3_cargar_epub = view.findViewById(R.id.bt_b3_cargar_epub);
+        bt_b3_cargar_epub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filePicker2();
             }
         });
 
@@ -120,8 +114,9 @@ public class B3_AddChapter2EPUB extends Fragment {
                 try {
 
                     // Agrega capítulo a un archivo EPUB
-                    ChapterIntoEPUB(pathChapterSelected);
-                    txt_path_show.setText("Capítulo agregado al EPUB");
+                    ChapterIntoEPUB(pathChapterSelected, pathEPUBselected);
+                    txt_path_show.setText(" ");
+                    txt_chapter_show.setText("Capítulo agregado al EPUB");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -141,16 +136,32 @@ public class B3_AddChapter2EPUB extends Fragment {
                 .start();
     }
 
+    // Seleccionar archivo desde el dispositivo
+    private void filePicker2() {
+        new MaterialFilePicker()
+                .withSupportFragment(this)
+                .withHiddenFiles(true)
+                .withRequestCode(2000)
+                .start();
+    }
+
     // Responde según las solicitudes en onClick para captar dirección del archivo seleccionado
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Archivo 1
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            // Path PDF 1
             pathChapterSelected = filePath;
-            txt_path_show.setText(pathChapterSelected);
+            txt_chapter_show.setText(pathChapterSelected);
             displatToast("path: " + pathChapterSelected);
+        }
+        // Archivo 2
+        if (requestCode == 2000 && resultCode == RESULT_OK) {
+            String filePath2 = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            pathEPUBselected = filePath2;
+            txt_path_show.setText(pathEPUBselected);
+            displatToast("path: " + pathEPUBselected);
         }
     }
 
@@ -160,13 +171,63 @@ public class B3_AddChapter2EPUB extends Fragment {
     }
 
     // Agrega capítulo a un archivo EPUB
-    public static void ChapterIntoEPUB(String pathChapterSelected)throws IOException {
+    public static void ChapterIntoEPUB(String pathChapterSelected, String pathEPUBselected) throws IOException {
+
+        // Verificar-Crear Directorio de salida por defecto
+        File folder = new File(OUTPUT_DIR);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // Carga Capítulo y datos para título del capítulo
+        File input_0 = new File(pathChapterSelected);                   // Archivo de entrada
+        String title0 = input_0.getName();                              // Título del archivo de entrada
+
+        // Carga archivo EPUB y datos para archivo de salida
+        File input_1 = new File(pathEPUBselected);                      // Archivo de entrada
+        String title1 = input_1.getName();                              // Título del archivo de entrada
+        String title_no_ext1 = FilenameUtils.removeExtension(title1);   // Título del archivo de entrada sin extensión
+        String name = "3-" + title_no_ext1 + "_ChapterAdded.epub";      // Nombre del archivo de salida
+
         // Carga datos del EPUB
         EpubReader epubReader = new EpubReader();
-        Book book = epubReader.readEpub(new FileInputStream(pathChapterSelected));
+        Book book = epubReader.readEpub(new FileInputStream(pathEPUBselected));
 
-        // Manipulación de Datos del EPUB
+        // Se carga como Resource el nuevo capítulo
+        Resource NewChapter = getResource(pathChapterSelected, title0);
+        SpineReference NewChapter_href = new SpineReference(NewChapter);
 
+        // Se carga la lista de referencias del Spine
+        List<SpineReference> spine_References = book.getSpine().getSpineReferences();
+        // Se agrega nuevo capítulo al final del Spine
+        spine_References.add(NewChapter_href);
+
+        // Se establece el nuevo spine
+        Spine NewSpine = new Spine(spine_References);
+        book.setSpine(NewSpine);
+        book.addResource(NewChapter);
+
+        /////////////////////////////////////
+
+        // Crea objeto EpubWriter
+        EpubWriter epubWriter = new EpubWriter();
+
+        // Crea archivo EPUB en el dispositivo
+        epubWriter.write(book, new FileOutputStream(OUTPUT_DIR + "/" + name));
+
+        /////////////////////////////////////
+
+    }
+
+    // Carga un nuevo recurso
+    private static InputStream getResource( String path ) throws IOException {
+        InputStream stream = new FileInputStream(path);
+        return stream;
+    }
+
+    // Crea un nuevo objeto Resource
+    private static Resource getResource(String path, String href ) throws IOException {
+        return  new Resource( getResource( path ), href );
     }
 
 }

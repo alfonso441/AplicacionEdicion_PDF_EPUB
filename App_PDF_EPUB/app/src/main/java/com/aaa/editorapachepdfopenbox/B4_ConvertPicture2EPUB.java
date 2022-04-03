@@ -19,12 +19,7 @@
 
 package com.aaa.editorapachepdfopenbox;
 
-        import android.Manifest;
         import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Bitmap;
-        import android.graphics.BitmapFactory;
-        import android.net.Uri;
         import android.os.Build;
         import android.os.Bundle;
         import android.view.LayoutInflater;
@@ -34,30 +29,19 @@ package com.aaa.editorapachepdfopenbox;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import androidx.activity.result.ActivityResultCallback;
-        import androidx.activity.result.ActivityResultLauncher;
-        import androidx.activity.result.contract.ActivityResultContracts;
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
         import androidx.annotation.RequiresApi;
-        import androidx.core.app.ActivityCompat;
-        import androidx.core.content.ContextCompat;
         import androidx.fragment.app.Fragment;
 
         import com.nbsp.materialfilepicker.MaterialFilePicker;
         import com.nbsp.materialfilepicker.ui.FilePickerActivity;
-        import com.tom_roush.pdfbox.cos.COSName;
-        import com.tom_roush.pdfbox.cos.COSStream;
-        import com.tom_roush.pdfbox.pdmodel.PDDocument;
-        import com.tom_roush.pdfbox.pdmodel.PDPage;
-        import com.tom_roush.pdfbox.pdmodel.PDPageTree;
-        import com.tom_roush.pdfbox.pdmodel.PDResources;
-        import com.tom_roush.pdfbox.pdmodel.graphics.PDXObject;
-        import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
-        import com.tom_roush.pdfbox.rendering.PDFRenderer;
         import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
+        import org.apache.commons.io.FilenameUtils;
+
         import java.io.File;
+        import java.io.FileNotFoundException;
         import java.io.FileOutputStream;
         import java.io.FileInputStream;
         import java.io.InputStream;
@@ -68,12 +52,12 @@ package com.aaa.editorapachepdfopenbox;
         import nl.siegmann.epublib.domain.Book;
         import nl.siegmann.epublib.domain.Metadata;
         import nl.siegmann.epublib.domain.Resource;
+        import nl.siegmann.epublib.domain.Resources;
+        import nl.siegmann.epublib.domain.Spine;
+        import nl.siegmann.epublib.domain.SpineReference;
         import nl.siegmann.epublib.domain.TOCReference;
         import nl.siegmann.epublib.epub.EpubWriter;
         import nl.siegmann.epublib.epub.EpubReader;
-
-        // Pdf-Converter
-        import pdf.converter.PdfConverter;
 
 /****************************************************************************
  *  B4 - Convierte imagen a EPUB.
@@ -89,7 +73,7 @@ public class B4_ConvertPicture2EPUB extends Fragment {
     int RESULT_OK = -1;
 
     // Locación donde almacena los archivos de salida
-    private static final String OUTPUT_DIR = "/storage/emulated/0/Documents";
+    private static final String OUTPUT_DIR = "/storage/emulated/0/EPUB_Tools";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,6 +103,8 @@ public class B4_ConvertPicture2EPUB extends Fragment {
             public void onClick(View v) {
                 try {
 
+                    // Inicializa herramienta intermedia para Imagen a PDF
+                    PDFBoxResourceLoader.init(getActivity());
                     // Convierte imagen a EPUB
                     Picture2EPUB(pathPictureSelected);
                     txt_path_show.setText("Imagen convertida a EPUB");
@@ -145,9 +131,9 @@ public class B4_ConvertPicture2EPUB extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Archivo 1
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            // Path PDF 1
             pathPictureSelected = filePath;
             txt_path_show.setText(pathPictureSelected);
             displatToast("path: " + pathPictureSelected);
@@ -161,12 +147,87 @@ public class B4_ConvertPicture2EPUB extends Fragment {
 
     // Convierte imagen a EPUB
     public static void Picture2EPUB(String pathPictureSelected)throws IOException {
-        // Convierte Imagen a PDF: EditorApachePDFOpenbox
 
-        // Convierte PDF a EPUB: Epublib
+        // Verificar-Crear Directorio de salida por defecto
+        File folder = new File(OUTPUT_DIR);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
 
-        // Borrar PDF
+        // Nombre de archivo de salida
+        File image_0 = new File(pathPictureSelected);               // Crea objeto File para extraer nombre del archivo original
+        String title = image_0.getName();                           // Título del archivo de entrada
+        String title_no_ext = FilenameUtils.removeExtension(title); // Título del archivo de entrada sin extensión
 
+        // Crear nuevo objeto Book
+        Book book = new Book();
+
+        // Set cover image
+        Resource NewPicture = getResource(pathPictureSelected, title);
+        book.setCoverImage(NewPicture);
+
+        // Crea un HTML que referencia la imagen
+        String pathHtml = Picture2HTML(OUTPUT_DIR, title, title_no_ext);
+        Resource NewHtml = getResource(pathHtml, title_no_ext+".html");
+        book.addResource(NewHtml);
+
+        // Primera sección TOC, Resources, Spine
+        book.addSection(title, NewHtml);
+
+        /////////////////////////////////////////////////
+
+        // Crea objeto EpubWriter
+        EpubWriter epubWriter = new EpubWriter();
+
+        // Crea archivo EPUB en el dispositivo
+        String name_output = "4-" + title_no_ext + "_Picture2EPUB";
+        epubWriter.write(book, new FileOutputStream(OUTPUT_DIR + "/" + name_output + ".epub"));
+
+        /////////////////////////////////////////////////
+
+        // Borrar HTML externo
+        File Html_externo = new File(pathHtml);
+        Html_externo.delete();
+
+        /////////////////////////////////////////////////
+
+    }
+
+    // Crea un HTML enlazando una imagen
+    private static String Picture2HTML(String Path, String PictureNameWithExtension, String PictureNameWithOUTExtension) {
+
+        String pathHtml = Path + "/" + PictureNameWithOUTExtension + ".html";
+
+        try {
+            FileOutputStream HTML = new FileOutputStream(pathHtml, true);
+            String datosHtml = "<html> \n <head> \n <title>" + PictureNameWithOUTExtension + "</title> \n </head> \n <body> \n <img src=\"" + PictureNameWithExtension + "\"/> \n </body> \n </html>";
+            char caracteres[] = datosHtml.toCharArray();
+            for (int i=0; i<datosHtml.length(); i++) {
+                HTML.write(caracteres[i]);
+            }
+            HTML.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // String con dirección del HTML creado
+        return pathHtml;
+
+    }
+
+    // Carga un nuevo recurso
+    private static InputStream getResource( String path ) throws IOException {
+        InputStream stream = new FileInputStream(path);
+        return stream;
+    }
+
+    // Crea un nuevo objeto Resource
+    private static Resource getResource(String path, String href ) throws IOException {
+        return  new Resource( getResource( path ), href );
     }
 
 }

@@ -119,4 +119,9 @@
         android:name="com.aaa.editorapachepdfopenbox.B6_EPUBReader"
         android:label="6B_EPUB"/>
 
+    <activity
+        android:id="@+id/activity_6B_web_view"
+        android:name="com.aaa.editorapachepdfopenbox.B6_WebView"
+        android:label="6B_WebView"/>
+
 </navigation>

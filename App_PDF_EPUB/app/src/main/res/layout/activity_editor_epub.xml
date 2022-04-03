@@ -82,7 +82,7 @@ tools:context=".EditorEPUB">
     android:layout_marginTop="8dp"
     android:backgroundTint="@color/colorEPUB"
     android:minWidth="160dp"
-    android:text="Remover Páginas del EPUB"
+    android:text="Remover Sección del EPUB"
     android:textColor="#ffffff"
     android:layout_below="@+id/bt_4B_convert_picture2epub"/>
 

@@ -19,61 +19,35 @@
 
 package com.aaa.editorapachepdfopenbox;
 
-        import android.Manifest;
-        import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Bitmap;
-        import android.graphics.BitmapFactory;
-        import android.net.Uri;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
-        import android.widget.TextView;
-        import android.widget.Toast;
+    import android.content.Intent;
+    import android.os.Build;
+    import android.os.Bundle;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.Button;
+    import android.widget.TextView;
+    import android.widget.Toast;
 
-        import androidx.activity.result.ActivityResultCallback;
-        import androidx.activity.result.ActivityResultLauncher;
-        import androidx.activity.result.contract.ActivityResultContracts;
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.annotation.RequiresApi;
-        import androidx.core.app.ActivityCompat;
-        import androidx.core.content.ContextCompat;
-        import androidx.fragment.app.Fragment;
+    import androidx.annotation.NonNull;
+    import androidx.annotation.Nullable;
+    import androidx.annotation.RequiresApi;
+    import androidx.fragment.app.Fragment;
 
-        import com.nbsp.materialfilepicker.MaterialFilePicker;
-        import com.nbsp.materialfilepicker.ui.FilePickerActivity;
-        import com.tom_roush.pdfbox.cos.COSName;
-        import com.tom_roush.pdfbox.cos.COSStream;
-        import com.tom_roush.pdfbox.pdmodel.PDDocument;
-        import com.tom_roush.pdfbox.pdmodel.PDPage;
-        import com.tom_roush.pdfbox.pdmodel.PDPageTree;
-        import com.tom_roush.pdfbox.pdmodel.PDResources;
-        import com.tom_roush.pdfbox.pdmodel.graphics.PDXObject;
-        import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
-        import com.tom_roush.pdfbox.rendering.PDFRenderer;
-        import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
+    import com.nbsp.materialfilepicker.MaterialFilePicker;
+    import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
-        import java.io.File;
-        import java.io.FileOutputStream;
-        import java.io.FileInputStream;
-        import java.io.InputStream;
-        import java.io.IOException;
+    import java.io.File;
+    import java.io.FileOutputStream;
+    import java.io.FileInputStream;
+    import java.io.InputStream;
+    import java.io.IOException;
 
-        // Epublib
-        import nl.siegmann.epublib.domain.Author;
-        import nl.siegmann.epublib.domain.Book;
-        import nl.siegmann.epublib.domain.Metadata;
-        import nl.siegmann.epublib.domain.Resource;
-        import nl.siegmann.epublib.domain.TOCReference;
-        import nl.siegmann.epublib.epub.EpubWriter;
-        import nl.siegmann.epublib.epub.EpubReader;
+    import org.apache.commons.io.FilenameUtils;
+    import org.apache.commons.io.IOUtils;
 
-        // Pdf-Converter
-        import pdf.converter.PdfConverter;
+    // Pdf-Converter
+    import pdf.converter.PdfConverter;
 
 /****************************************************************************
  *  B1 - Convierte archivos PDF a EPUB.
@@ -89,7 +63,7 @@ public class B1_ConvertPDF2EPUB extends Fragment {
     int RESULT_OK = -1;
 
     // Locación donde almacena los archivos de salida
-    private static final String OUTPUT_DIR = "/storage/emulated/0/Documents";
+    private static final String OUTPUT_DIR = "/storage/emulated/0/EPUB_Tools";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,9 +119,9 @@ public class B1_ConvertPDF2EPUB extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Archivo 1
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            // Path PDF 1
             pathPDFselected = filePath;
             txt_path_show.setText(pathPDFselected);
             displatToast("path: " + pathPDFselected);
@@ -160,8 +134,33 @@ public class B1_ConvertPDF2EPUB extends Fragment {
     }
 
     // Convierte archivos PDF a EPUB
-    public static void PDF2EPUB(String pathPDFselected)throws IOException {
-        PdfConverter.convert(new File(pathPDFselected)).intoEpub("PDF_Converted_2_EPUB", new File("PDF_Converted_2_EPUB.epub"));
+    public void PDF2EPUB(String pathPDFselected)throws IOException {
+
+        // Verificar-Crear Directorio de salida por defecto
+        File folder = new File(OUTPUT_DIR);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // Carga del archivo como stream
+        InputStream stream = new FileInputStream(pathPDFselected);
+
+        // Título de archivo de salida
+        File input_0 = new File(pathPDFselected);                   // Archivo de entrada
+        String title = input_0.getName();                           // Título del archivo de entrada
+        String title_no_ext = FilenameUtils.removeExtension(title); // Título del archivo de entrada sin extensión
+        String name = "1-" + title_no_ext + "_PDF2EPUB";            // Nombre del archivo de salida
+
+        // Archivos auxiliares
+        File input = File.createTempFile(title_no_ext, ".pdf", folder);
+        File output = new File(OUTPUT_DIR + "/" + name + ".epub");
+        IOUtils.copy(stream, new FileOutputStream(input));
+
+        // Convierte PDF a EPUB
+        PdfConverter.convert(input).intoEpub(title_no_ext, output);
+        output.createNewFile(); // Crea el archivo de salida en el dispositivo
+        input.delete();         // Borra el archivo input temporal
+
     }
 
 }

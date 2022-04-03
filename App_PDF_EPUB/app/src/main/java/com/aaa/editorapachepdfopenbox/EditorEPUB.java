@@ -19,17 +19,20 @@
 
 package com.aaa.editorapachepdfopenbox;
 
-    import androidx.appcompat.app.AppCompatActivity;
+    import android.Manifest;
+    import android.content.pm.PackageManager;
+    import android.os.Build;
     import android.os.Bundle;
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
+    import androidx.core.content.ContextCompat;
     import androidx.fragment.app.Fragment;
     import androidx.navigation.Navigation;
-    import android.os.Bundle;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
     import android.widget.Button;
+    import android.widget.Toast;
 
 /****************************************************************************
  *  Menú de Herramientas EPUB.
@@ -51,6 +54,13 @@ public class EditorEPUB extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_editor_epub, container, false);
+
+        ////////////////////////////////////////////////////////
+        /// Permisos para acceder a archivos del dispositivo ///
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+        }
+        ////////////////////////////////////////////////////////
 
         // 1B-Convierte archivos PDF a EPUB
         boton_1B_convert_pdf2epub = view.findViewById(R.id.bt_1B_convert_pdf2epub);
@@ -88,7 +98,7 @@ public class EditorEPUB extends Fragment {
             }
         });
 
-        // 5B-Remueve páginas del EPUB
+        // 5B-Remueve sección del EPUB (No imágenes porque no es un número fijo, depende del lector y configuración del contenido)
         boton_5B_remove_pages_from_epub = view.findViewById(R.id.bt_5B_remove_pages_from_epub);
         boton_5B_remove_pages_from_epub.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,4 +118,26 @@ public class EditorEPUB extends Fragment {
 
         return view;
     }
+
+    ////////////////////////////////////////////////////////
+    /// Permisos para acceder a archivos del dispositivo ///
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1001: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(), "¡Acceso Permitido!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "¡Acceso Denegado!", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                }
+            }
+        }
+
+    }
+    ////////////////////////////////////////////////////////
+
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////

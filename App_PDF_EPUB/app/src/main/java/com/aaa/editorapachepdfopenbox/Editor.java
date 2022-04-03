@@ -19,14 +19,19 @@ package com.aaa.editorapachepdfopenbox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /****************************************************************************
  *  Pantalla principal de inicio
@@ -46,6 +51,14 @@ public class Editor extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.editor, container, false);
+
+        ////////////////////////////////////////////////////////
+        // Agregado por Alfonso Castillo. Versión 2.0.
+        /// Permisos para acceder a archivos del dispositivo ///
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+        }
+        ////////////////////////////////////////////////////////
 
         // Unión de archivos PDF
         boton_mergerpdf = view.findViewById(R.id.bt_mergerpdf_editor);
@@ -102,4 +115,25 @@ public class Editor extends Fragment {
 
         return view;
     }
+
+    ////////////////////////////////////////////////////////
+    // Agregado por Alfonso Castillo. Versión 2.0.
+    /// Permisos para acceder a archivos del dispositivo ///
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1001: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(), "¡Acceso Permitido!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "¡Acceso Denegado!", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                }
+            }
+        }
+
+    }
+    ////////////////////////////////////////////////////////
+
 }
